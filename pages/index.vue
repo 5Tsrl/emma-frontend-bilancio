@@ -18,7 +18,7 @@
                 <b-col cols="4">
                     <b-form-group>
                         <label>Questionario</label>
-                        <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name"></b-form-select>
+                        <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
                     </b-form-group>                    
                 </b-col>
             </b-form-row>
@@ -107,6 +107,7 @@ export default {
             survey_id: 0,
             surveys: [],
             busy: false,
+            impacts: null
         };
     },
     computed: {},
@@ -177,9 +178,43 @@ export default {
 
             return this.surveys;
         },
+        retriveImpact: async function () {
+			this.busy = true;
+			try {
+				this.surveys = await this.createFilteredSurveysList();
 
-        async created() {
-            this.busy = true;            
+				localStorage.setItem("bilancio.company", this.company_id);
+				localStorage.setItem("nilancio.office", this.office_id);
+				localStorage.setItem("bilancio.survey", this.survey_id);
+
+				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id);
+
+				if (result != null) {
+					this.impacts = result.data.impacts;
+					this.exists_pscl = true;
+                    let totalCO2 = 0;
+
+                    for (const key in this.impacts) {
+                        this.impacts[key].forEach(obj => totalCO2 += obj.CO2);
+                    }
+
+                    console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);				
+				} else {
+					this.exists_bilancio = false;
+				}
+			} catch (error) {
+				console.log(error);
+				this.exists_bilancio = false;
+			} finally {
+				this.busy = false;
+			}
+		},
+
+        
+    },
+    async created() {
+            this.busy = true;    
+            let self = this;        
 
             try {
                 const response = await Promise.all([
@@ -202,18 +237,18 @@ export default {
                     this.company_id = this.getUserCompany;
                 }
 
-                if (localStorage.getItem("pscl.company") != null) {
-                    this.company_id = localStorage.getItem("pscl.company");
+                if (localStorage.getItem("bilancio.company") != null) {
+                    this.company_id = localStorage.getItem("bilancio.company");
                     await this.updateOffices();
                 }
 
-                if (localStorage.getItem("pscl.office") != null) {
-                    this.office_id = localStorage.getItem("pscl.office");
+                if (localStorage.getItem("bilancio.office") != null) {
+                    this.office_id = localStorage.getItem("bilancio.office");
                 }
 
                 this.surveys = await this.createFilteredSurveysList();
-                if (localStorage.getItem("pscl.survey") != null) {
-                    this.survey_id = localStorage.getItem("pscl.survey");
+                if (localStorage.getItem("bilancio.survey") != null) {
+                    this.survey_id = localStorage.getItem("bilancio.survey");
                 }
 
                 if (this.$route.query.company_id) {
@@ -234,7 +269,6 @@ export default {
                 this.busy = false;
             }
         },
-    },
 };
 </script>
 
