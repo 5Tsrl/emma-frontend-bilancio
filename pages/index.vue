@@ -193,12 +193,20 @@ export default {
 					this.impacts = result.data.impacts;
 					this.exists_pscl = true;
                     let totalCO2 = 0;
+                    let totalNOx = 0;
+                    let totalPM10 = 0;
 
                     for (const key in this.impacts) {
                         this.impacts[key].forEach(obj => totalCO2 += obj.CO2);
+                        this.impacts[key].forEach(obj => totalNOx += obj.NOx);
+                        this.impacts[key].forEach(obj => totalPM10 += obj.PM10);
+                        
                     }
 
-                    console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);				
+                    console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
+                    statsCards[0].value=`${totalCO2.toFixed(2)} Ton`;	
+                    statsCards[1].value=`${totalNOx.toFixed(2)} Kg`;	
+                    statsCards[2].value=`${totalPM10.toFixed(2)} Kg`;		
 				} else {
 					this.exists_bilancio = false;
 				}
