@@ -9,7 +9,7 @@ const routes = [
 			{
 				path: "/bilancio",
 				name: "Bilancio Sostenibilità e Esternalità",
-				meta: { authorize: ["admin"] },
+				meta: { authorize: ["admin", "moma","moma_area"]  },
 				// lazy-loaded
 				component: pageComponent("index"),
 			},						
