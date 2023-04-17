@@ -24,10 +24,26 @@
             </b-form-row>
         </b-form>
         <hr />
-        <h2>Bilancio di Sostenibilità e Esternalità</h2>
+        <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
         <!--Stats cards-->
         <div class="row">
             <div class="col-md-3 col-xl-3" v-for="stats in statsCards" :key="stats.title">
+                <stats-card>
+                    <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
+                        <i :class="stats.icon"></i>
+                    </div>
+                    <div class="numbers" slot="content">
+                        <p>{{ stats.title }}</p>
+                        {{ stats.value }}
+                    </div>
+                    <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div>
+                </stats-card>
+            </div>
+        </div>
+        <h2>Bilancio di Sostenibilità e Esternalità Obbietivo</h2>
+        <!--Stats cards-->
+        <div class="row">
+            <div class="col-md-3 col-xl-3" v-for="stats in statsCards_obj" :key="stats.title">
                 <stats-card>
                     <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
                         <i :class="stats.icon"></i>
@@ -60,7 +76,42 @@ const statsCards = [
         type: "success",
         icon: "ti-cloud",
         title: "CO2 Risparmiata",
-        value: "13 Ton",
+        value: "13 Kg",
+        footerText: "La CO2 è indicatore delle le emissioni climalteranti",
+        footerIcon: "ti-info",
+    },
+    {
+        type: "warning",
+        icon: "ti-cloud",
+        title: "NOx Risparmiati",
+        value: "114 Kg",
+        footerText: "Gli NOx sono responsabili di malattie respiratorie e causano 90.000 morti all'anno direttamente connessi all'inquinamento atmosferico",
+        footerIcon: "ti-info",
+    },
+    {
+        type: "danger",
+        icon: "ti-cloud",
+        title: "PM10 Risparmiato",
+        value: "23 Kg",
+        footerText: "Il PM10 causa diversi effetti sulla salute tra cui molti disturbi collegati all'apparato respiratorio. L’Agenzia Internazionale per la Ricerca sul Cancro (IARC) ha classificato l’inquinamento dell’aria (di cui il particolato atmosferico è un indicatore) nel Gruppo 1, vale a dire tra le sostanze cancerogene per l’uomo.",
+        footerIcon: "ti-info",
+    },
+    {
+        type: "primary",
+        icon: "ti-money",
+        title: "Costi Esterni Risparmiati",
+        value: "12402 €",
+        footerText: "Il traffico genera dei costi che ricadono sulla collettività (metodologia di calcolo utilizzata: Handbook on the external costs of transport)",
+        footerIcon: "ti-info",
+    },
+];
+
+const statsCards_obj = [
+    {
+        type: "success",
+        icon: "ti-cloud",
+        title: "CO2 Risparmiata",
+        value: "13 Kg",
         footerText: "La CO2 è indicatore delle le emissioni climalteranti",
         footerIcon: "ti-info",
     },
@@ -99,6 +150,7 @@ export default {
     data() {
         return {
             statsCards: statsCards,
+            statsCards_obj: statsCards_obj,
             alberi: 38,
             company_id: 0,
             companies: [],
@@ -184,7 +236,7 @@ export default {
 				this.surveys = await this.createFilteredSurveysList();
 
 				localStorage.setItem("bilancio.company", this.company_id);
-				localStorage.setItem("nilancio.office", this.office_id);
+				localStorage.setItem("bilancio.office", this.office_id);
 				localStorage.setItem("bilancio.survey", this.survey_id);
 
 				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id);
@@ -195,18 +247,40 @@ export default {
                     let totalCO2 = 0;
                     let totalNOx = 0;
                     let totalPM10 = 0;
+                    let obj_CO2 = 0;
+                    let obj_NOx = 0;
+                    let obj_PM10 = 0;
 
                     for (const key in this.impacts) {
-                        this.impacts[key].forEach(obj => totalCO2 += obj.CO2);
-                        this.impacts[key].forEach(obj => totalNOx += obj.NOx);
-                        this.impacts[key].forEach(obj => totalPM10 += obj.PM10);
+                        // this.impacts[key].forEach(obj => totalCO2 += obj.CO2);
+                        // this.impacts[key].forEach(obj => totalNOx += obj.NOx);
+                        // this.impacts[key].forEach(obj => totalPM10 += obj.PM10);
+                        totalCO2 +=  this.impacts[key].slice(-1)[0].CO2;
+                        totalNOx +=  this.impacts[key].slice(-1)[0].NOx;
+                        totalPM10 +=  this.impacts[key].slice(-1)[0].PM10;
+                        // this.impacts[key].slice(-1).forEach(obj => totalCO2 += obj.CO2);
+                        // this.impacts[key].slice(-1).forEach(obj => totalNOx += obj.NOx);
+                        // this.impacts[key].slice(-1).forEach(obj => totalPM10 += obj.PM10);
+                        obj_CO2 +=this.impacts[key][0].CO2;
+                        obj_NOx +=this.impacts[key][0].NOx;
+                        obj_PM10 +=this.impacts[key][0].PM10;
+                        // .forEach(obj => obj_CO2 += obj.CO2);
+                        // this.impacts[key].forEach(obj => obj_NOx += obj.NOx);
+                        // this.impacts[key].forEach(obj => obj_PM10 += obj.PM10);
                         
                     }
 
                     console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
-                    statsCards[0].value=`${totalCO2.toFixed(2)} Ton`;	
-                    statsCards[1].value=`${totalNOx.toFixed(2)} Kg`;	
-                    statsCards[2].value=`${totalPM10.toFixed(2)} Kg`;		
+                    console.log(`obj CO2 emissions: ${obj_CO2.toFixed(2)} kg`);	
+                    statsCards[0].value=`${Math.round(totalCO2.toFixed(2)/10)/100} Kg`;	
+                    statsCards[1].value=`${Math.round(totalNOx.toFixed(2)/10)/100} Kg`;	
+                    statsCards[2].value=`${Math.round(totalPM10.toFixed(2)/10)/100} Kg`;
+                    statsCards[3].value=`${(Math.round(((27*totalPM10.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
+                    statsCards_obj[0].value=`${Math.round(obj_CO2.toFixed(2)/10)/100} Kg`;	
+                    statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2)/10)/100} Kg`;	
+                    statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2)/10)/100} Kg`;	
+                    statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
+                    this.alberi=Math.round(totalCO2.toFixed(2)/136000);
 				} else {
 					this.exists_bilancio = false;
 				}
