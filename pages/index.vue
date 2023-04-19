@@ -27,32 +27,43 @@
         <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
         <!--Stats cards-->
         <div class="row">
-            <div class="col-md-3 col-xl-3" v-for="stats in statsCards" :key="stats.title">
+            <div class="col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
                 <stats-card>
-                    <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
+                    <div class="icon-big text-center float-left " :class="`icon-${stats.type}`" slot="header">
                         <i :class="stats.icon"></i>
                     </div>
                     <div class="numbers" slot="content">
                         <p>{{ stats.title }}</p>
-                        {{ stats.value }}
+                        {{ stats.value }} 
                     </div>
-                    <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div>
+                    <div class="stats" slot="footer">
+                        <b-button :id="`Informazione-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                     <b-popover :show.sync="stats.show" :target="`Informazione-${stats.id}`" title="Informazione">
+                        {{ stats.footerText }}
+                     </b-popover>
+                    </div>
                 </stats-card>
             </div>
         </div>
         <h2>Bilancio di Sostenibilità e Esternalità Obbietivo</h2>
         <!--Stats cards-->
         <div class="row">
-            <div class="col-md-3 col-xl-3" v-for="stats in statsCards_obj" :key="stats.title">
+            <div class="col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
                 <stats-card>
-                    <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
+                    <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
                         <i :class="stats.icon"></i>
                     </div>
                     <div class="numbers" slot="content">
                         <p>{{ stats.title }}</p>
                         {{ stats.value }}
                     </div>
-                    <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div>
+                    <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
+                    <div class="stats" slot="footer">
+                        <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                     <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
+                        {{ stats.footerText }}
+                     </b-popover>
+                    </div>
                 </stats-card>
             </div>
         </div>
@@ -73,71 +84,87 @@ import UserService from "@/services/user.service";
 
 const statsCards = [
     {
+        id:1,
         type: "success",
         icon: "ti-cloud",
         title: "CO2 Risparmiata",
         value: "13 Kg",
         footerText: "La CO2 è indicatore delle le emissioni climalteranti",
         footerIcon: "ti-info",
+        show: false,
     },
     {
+        id:2,
         type: "warning",
         icon: "ti-cloud",
         title: "NOx Risparmiati",
         value: "114 Kg",
         footerText: "Gli NOx sono responsabili di malattie respiratorie e causano 90.000 morti all'anno direttamente connessi all'inquinamento atmosferico",
         footerIcon: "ti-info",
+        show: false,
     },
-    {
+    {   
+        id:3,
         type: "danger",
         icon: "ti-cloud",
         title: "PM10 Risparmiato",
         value: "23 Kg",
         footerText: "Il PM10 causa diversi effetti sulla salute tra cui molti disturbi collegati all'apparato respiratorio. L’Agenzia Internazionale per la Ricerca sul Cancro (IARC) ha classificato l’inquinamento dell’aria (di cui il particolato atmosferico è un indicatore) nel Gruppo 1, vale a dire tra le sostanze cancerogene per l’uomo.",
         footerIcon: "ti-info",
+        show: false,
     },
     {
+        id:4,
         type: "primary",
         icon: "ti-money",
         title: "Costi Esterni Risparmiati",
         value: "12402 €",
         footerText: "Il traffico genera dei costi che ricadono sulla collettività (metodologia di calcolo utilizzata: Handbook on the external costs of transport)",
         footerIcon: "ti-info",
+        show: false,
     },
 ];
 
 const statsCards_obj = [
     {
+        id:1,
         type: "success",
         icon: "ti-cloud",
         title: "CO2 Risparmiata",
         value: "13 Kg",
         footerText: "La CO2 è indicatore delle le emissioni climalteranti",
         footerIcon: "ti-info",
+        show: false,
     },
     {
+        id:2,
         type: "warning",
         icon: "ti-cloud",
         title: "NOx Risparmiati",
         value: "114 Kg",
         footerText: "Gli NOx sono responsabili di malattie respiratorie e causano 90.000 morti all'anno direttamente connessi all'inquinamento atmosferico",
         footerIcon: "ti-info",
+        show: false,
     },
     {
+        id:3,
         type: "danger",
         icon: "ti-cloud",
         title: "PM10 Risparmiato",
         value: "23 Kg",
         footerText: "Il PM10 causa diversi effetti sulla salute tra cui molti disturbi collegati all'apparato respiratorio. L’Agenzia Internazionale per la Ricerca sul Cancro (IARC) ha classificato l’inquinamento dell’aria (di cui il particolato atmosferico è un indicatore) nel Gruppo 1, vale a dire tra le sostanze cancerogene per l’uomo.",
         footerIcon: "ti-info",
+        show: false,
     },
     {
+        id:4,
         type: "primary",
         icon: "ti-money",
         title: "Costi Esterni Risparmiati",
         value: "12402 €",
         footerText: "Il traffico genera dei costi che ricadono sulla collettività (metodologia di calcolo utilizzata: Handbook on the external costs of transport)",
         footerIcon: "ti-info",
+        show: false,
     },
 ];
 
@@ -159,7 +186,9 @@ export default {
             survey_id: 0,
             surveys: [],
             busy: false,
-            impacts: null
+            impacts: null,
+            max:1000,
+            value:300
         };
     },
     computed: {},
