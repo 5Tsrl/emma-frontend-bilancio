@@ -74,6 +74,9 @@
                 <img src="@/assets/img/tree.svg" width="100" v-for="a in alberi" />
             </b-col>
         </b-row>
+        <br>
+        <p> *Le stime di CO2, NOx, PM10 riportati in questa pagina sotto sono calcolati in base alle formule fornite dal MISE partendo dai dati dichiarati dal Mobility Manager Aziendale. La stima sul numero degli alberi necessari per assorbire la CO2 è fornita da <b-link href="https://www.eea.europa.eu/articles/forests-health-and-climate-change/key-facts/trees-help-tackle-climate-change"><u>Agenzia Europea per l’Ambiente</u></b-link> - (22 Kg CO2) -
+Il calcolo delle esternalità deriva dal modello fornitor da <b-link href="https://op.europa.eu/en/publication-detail/-/publication/9781f65f-8448-11ea-bf12-01aa75ed71a1"> <u>Handbook on the external costs of transport, </u></b-link>version 2019, 1.1</p> 
     </div>
 </template>
 
