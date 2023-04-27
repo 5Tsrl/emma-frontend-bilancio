@@ -312,7 +312,7 @@ export default {
                     statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2)/10)/100} Kg`;	
                     statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2)/10)/100} Kg`;	
                     statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
-                    this.alberi=Math.round(totalCO2.toFixed(2)/167000);
+                    this.alberi=Math.round(totalCO2.toFixed(2)/22000);
 				} else {
 					this.exists_bilancio = false;
 				}
