@@ -304,13 +304,13 @@ export default {
 
                     console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
                     console.log(`obj CO2 emissions: ${obj_CO2.toFixed(2)} kg`);	
-                    statsCards[0].value=`${Math.round(totalCO2.toFixed(2)/10)/100} Kg`;	
-                    statsCards[1].value=`${Math.round(totalNOx.toFixed(2)/10)/100} Kg`;	
-                    statsCards[2].value=`${Math.round(totalPM10.toFixed(2)/10)/100} Kg`;
+                    statsCards[0].value=`${Math.round(totalCO2.toFixed(2))} Kg`;	
+                    statsCards[1].value=`${Math.round(totalNOx.toFixed(2))} Kg`;	
+                    statsCards[2].value=`${Math.round(totalPM10.toFixed(2))} Kg`;
                     statsCards[3].value=`${(Math.round(((27*totalPM10.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
-                    statsCards_obj[0].value=`${Math.round(obj_CO2.toFixed(2)/10)/100} Kg`;	
-                    statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2)/10)/100} Kg`;	
-                    statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2)/10)/100} Kg`;	
+                    statsCards_obj[0].value=`${Math.round(obj_CO2.toFixed(2))} Kg`;	
+                    statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2))} Kg`;	
+                    statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2))} Kg`;	
                     statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
                     this.alberi=Math.round(totalCO2.toFixed(2)/22000);
 				} else {
@@ -375,7 +375,7 @@ export default {
                 if (this.$route.query.survey_id) {
                     this.survey_id = parseInt(this.$route.query.survey_id);
                 }
-
+                this.retriveImpact();
                 return;
             } catch (e) {
                 console.log(e);
