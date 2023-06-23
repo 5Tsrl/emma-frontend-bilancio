@@ -233,6 +233,7 @@ export default {
                     let response = await UserService.getCompanyType(this.company_id);
                     this.company_type = response.data.data.survey_template;
                 }
+                this.retriveImpact();
             } catch (e) {
                 console.log(e);
             } finally {
