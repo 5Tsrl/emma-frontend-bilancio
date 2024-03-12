@@ -45,7 +45,7 @@
                 </stats-card>
             </div>
         </div>
-        <h2>Bilancio di Sostenibilità e Esternalità Obbietivo</h2>
+        <h2>Bilancio di Sostenibilità e Esternalità Obietivo</h2>
         <!--Stats cards-->
         <div class="row">
             <div class="col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
