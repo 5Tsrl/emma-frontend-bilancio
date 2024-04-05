@@ -2,7 +2,7 @@
     <div>
         <b-form>
             <b-form-row>
-                <b-col cols="4" v-if="loggedUserIsMomaArea || loggedUserIsAdmin">
+                <b-col cols="4" v-if="loggedUserIsMomaArea || loggedUserIsAdmin || loggedUserIsMomaAzienda">
                     <b-form-group>
                         <label>Azienda</label>
                         <b-form-select v-model="company_id" :options="companies" value-field="id" text-field="name"
