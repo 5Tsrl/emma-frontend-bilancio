@@ -2,20 +2,20 @@
     <div>
         <b-form>
             <b-form-row>
-                <b-col cols="4" v-if="loggedUserIsMomaArea || loggedUserIsAdmin || loggedUserIsMomaAzienda">
+                <b-col class="flex-grow-1" v-if="loggedUserIsMomaArea || loggedUserIsAdmin || loggedUserIsMomaAzienda">
                     <b-form-group>
                         <label>Azienda</label>
                         <b-form-select v-model="company_id" :options="companies" value-field="id" text-field="name"
                             v-on:change="updateOffices"></b-form-select>
                     </b-form-group>
                 </b-col>
-                <b-col cols="4">
+                <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Sede</label>
                         <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name"></b-form-select>
                     </b-form-group>                   
                 </b-col>
-                <b-col cols="4">
+                <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Questionario</label>
                         <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
@@ -45,7 +45,7 @@
                 </stats-card>
             </div>
         </div>
-        <h2>Bilancio di Sostenibilità e Esternalità Obietivo</h2>
+        <h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2>
         <!--Stats cards-->
         <div class="row">
             <div class="col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
@@ -71,7 +71,7 @@
             anno</h3>
         <b-row>
             <b-col>
-                <img src="@/assets/img/tree.svg" width="100" v-for="a in alberi" />
+                <img src="@/assets/img/tree.svg" width="50" v-for="a in alberi" />
             </b-col>
         </b-row>
         <br>
