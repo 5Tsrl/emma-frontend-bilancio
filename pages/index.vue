@@ -27,44 +27,116 @@
         <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
         <!--Stats cards-->
         <div class="row">
-            <div class="col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
-                <stats-card>
-                    <div class="icon-big text-center float-left " :class="`icon-${stats.type}`" slot="header">
-                        <i :class="stats.icon"></i>
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+                        <b-form-group>
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions"/>
+                        </b-form-group>
+                    </b-col>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <stats-card>
+                            <div class="icon-big text-center float-left " :class="`icon-${stats.type}`" slot="header">
+                                <i :class="stats.icon"></i>
+                            </div>
+                            <div class="numbers" slot="content">
+                                <p>{{ stats.title }}</p>
+                                {{ stats.value }} 
+                            </div>
+                            <div class="stats float-right" slot="footer">
+                                <b-button :id="`Informazione-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                                <b-popover :show.sync="stats.show" :target="`Informazione-${stats.id}`" title="Informazione">
+                                    {{ stats.footerText }}
+                                </b-popover>
+                            </div>
+                        </stats-card>
                     </div>
-                    <div class="numbers" slot="content">
-                        <p>{{ stats.title }}</p>
-                        {{ stats.value }} 
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+                        <b-form-group>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions"/>
+                        </b-form-group>
+                    </b-col>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <stats-card>
+                            <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
+                                <i :class="stats.icon"></i>
+                            </div>
+                            <div class="numbers" slot="content">
+                                <p>{{ stats.title }}</p>
+                                {{ stats.value }} 
+                            </div>
+                            <div class="stats" slot="footer">
+                                <b-button :id="`Informazione-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                                <b-popover :show.sync="stats.show" :target="`Informazione-${stats.id}`" title="Informazione">
+                                    {{ stats.footerText }}
+                                </b-popover>
+                            </div>
+                        </stats-card>
                     </div>
-                    <div class="stats" slot="footer">
-                        <b-button :id="`Informazione-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
-                     <b-popover :show.sync="stats.show" :target="`Informazione-${stats.id}`" title="Informazione">
-                        {{ stats.footerText }}
-                     </b-popover>
-                    </div>
-                </stats-card>
+                </div>
             </div>
         </div>
+        
         <h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2>
         <!--Stats cards-->
         <div class="row">
-            <div class="col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
-                <stats-card>
-                    <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
-                        <i :class="stats.icon"></i>
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+                        <b-form-group>
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions"/>
+                        </b-form-group>
+                    </b-col>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <stats-card>
+                            <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
+                                <i :class="stats.icon"></i>
+                            </div>
+                            <div class="numbers" slot="content">
+                                <p>{{ stats.title }}</p>
+                                {{ stats.value }}
+                            </div>
+                            <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
+                            <div class="stats" slot="footer">
+                                <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                            <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
+                                {{ stats.footerText }}
+                            </b-popover>
+                            </div>
+                        </stats-card>
                     </div>
-                    <div class="numbers" slot="content">
-                        <p>{{ stats.title }}</p>
-                        {{ stats.value }}
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+                        <b-form-group>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions"/>
+                        </b-form-group>
+                    </b-col>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <stats-card>
+                            <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
+                                <i :class="stats.icon"></i>
+                            </div>
+                            <div class="numbers" slot="content">
+                                <p>{{ stats.title }}</p>
+                                {{ stats.value }}
+                            </div>
+                            <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
+                            <div class="stats" slot="footer">
+                                <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
+                            <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
+                                {{ stats.footerText }}
+                            </b-popover>
+                            </div>
+                        </stats-card>
                     </div>
-                    <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
-                    <div class="stats" slot="footer">
-                        <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
-                     <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
-                        {{ stats.footerText }}
-                     </b-popover>
-                    </div>
-                </stats-card>
+                </div>
             </div>
         </div>
         <h3>La CO<sub>2</sub> risparmiata grazie al tuo PSCL equivale a quella assorbita da <b>{{ alberi }}</b> alberi in un
@@ -191,7 +263,11 @@ export default {
             busy: false,
             impacts: null,
             max:1000,
-            value:300
+            value:300,
+            year: '',
+            yearCompare: '', // WIP - Selezione locale per il confronto tra anni
+			yearOptions: [2020, 2021, 2022, 2023, 2024] // WIP - array anni disponibili
+            
         };
     },
     computed: {},
@@ -332,6 +408,7 @@ export default {
             let self = this;        
 
             try {
+                this.year=this.getYear;
                 const response = await Promise.all([
                     UserService.getCompanyList(), //0                    
                 ]);
