@@ -60,7 +60,7 @@
                         </b-form-group>
                     </b-col>
                 <div class="row">
-                    <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                    <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_compare" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
                                 <i :class="stats.icon"></i>
@@ -91,7 +91,7 @@
                         </b-form-group>
                     </b-col>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
                                 <i :class="stats.icon"></i>
@@ -118,7 +118,7 @@
                         </b-form-group>
                     </b-col>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
+                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj_compare" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
                                 <i :class="stats.icon"></i>
@@ -265,8 +265,10 @@ export default {
             max:1000,
             value:300,
             year: '',
-            yearCompare: '', // WIP - Selezione locale per il confronto tra anni
-			yearOptions: [2020, 2021, 2022, 2023, 2024] // WIP - array anni disponibili
+            yearCompare: 2023, // WIP - Selezione locale per il confronto tra anni
+			yearOptions: [2020, 2021, 2022, 2023, 2024], // WIP - array anni disponibili
+            statsCards_compare: statsCards,
+            statsCards_obj_compare: statsCards_obj,
             
         };
     },
@@ -381,14 +383,14 @@ export default {
 
                     console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
                     console.log(`obj CO2 emissions: ${obj_CO2.toFixed(2)} kg`);	
-                    statsCards[0].value=`${Math.round(totalCO2.toFixed(2))} Kg`;	
-                    statsCards[1].value=`${Math.round(totalNOx.toFixed(2))} Kg`;	
-                    statsCards[2].value=`${Math.round(totalPM10.toFixed(2))} Kg`;
-                    statsCards[3].value=`${(Math.round(((27*totalPM10.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
-                    statsCards_obj[0].value=`${Math.round(obj_CO2.toFixed(2))} Kg`;	
-                    statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2))} Kg`;	
-                    statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2))} Kg`;	
-                    statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
+                    this.statsCards[0].value=`${Math.round(totalCO2.toFixed(2))} Kg`;	
+                    this.statsCards[1].value=`${Math.round(totalNOx.toFixed(2))} Kg`;	
+                    this.statsCards[2].value=`${Math.round(totalPM10.toFixed(2))} Kg`;
+                    this.statsCards[3].value=`${(Math.round(((27*totalPM10.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
+                    this.statsCards_obj[0].value=`${Math.round(obj_CO2.toFixed(2))} Kg`;	
+                    this.statsCards_obj[1].value=`${Math.round(obj_NOx.toFixed(2))} Kg`;	
+                    this.statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2))} Kg`;	
+                    this.statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
                     this.alberi=Math.round(totalCO2.toFixed(2)/22);
 				} else {
 					this.exists_bilancio = false;
@@ -464,4 +466,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style></style>s
