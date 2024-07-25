@@ -15,12 +15,14 @@
                         <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name"></b-form-select>
                     </b-form-group>                   
                 </b-col>
+                <!-- vecchio filtro per visualizzazione dati questionari
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Questionario</label>
                         <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
                     </b-form-group>                    
                 </b-col>
+                -->
             </b-form-row>
         </b-form>
         <hr />
