@@ -15,27 +15,32 @@
                         <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" ></b-form-select>
                     </b-form-group>                   
                 </b-col>
-                <!-- vecchio filtro per visualizzazione dati questionari
+                
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Questionario</label>
                         <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
                     </b-form-group>                    
                 </b-col>
-                -->
+               
             </b-form-row>
         </b-form>
         <hr />
         <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
         <!--Stats cards-->
-        <div class="row">
+        
+        <div class="row" >
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" />
                         </b-form-group>
                     </b-col>
-                <div class="row">
+                <!-- busy -->
+                <div class="text-center" v-if="busy">
+                    <b-spinner label="Spinning"></b-spinner>
+                </div>
+                <div class="row" v-else>
                     <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left " :class="`icon-${stats.type}`" slot="header">
@@ -58,10 +63,14 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
                         </b-form-group>
                     </b-col>
-                <div class="row">
+                    <!-- busy -->
+                <div class="text-center" v-if="busy_compare">
+                    <b-spinner label="Spinning"></b-spinner>
+                </div>
+                <div class="row" v-else>
                     <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_compare" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
@@ -85,14 +94,18 @@
         
         <h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2>
         <!--Stats cards-->
-        <div class="row">
+         <div class="row">
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
                         </b-form-group>
                     </b-col>
-                    <div class="row">
+                    <!-- busy -->
+                    <div class="text-center" v-if="busy">
+                        <b-spinner label="Spinning"></b-spinner>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
@@ -116,10 +129,14 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
                         </b-form-group>
                     </b-col>
-                    <div class="row">
+                    <!-- busy -->
+                    <div class="text-center" v-if="busy_compare">
+                        <b-spinner label="Spinning"></b-spinner>
+                    </div>
+                    <div class="row" v-else>
                         <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj_compare" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
@@ -204,7 +221,7 @@ const statsCards = [
 
 const statsCards_compare = [
     {
-        id:5,
+        id:1,
         type: "success",
         icon: "ti-cloud",
         title: "CO2 Risparmiata",
@@ -214,7 +231,7 @@ const statsCards_compare = [
         show: false,
     },
     {
-        id:6,
+        id:2,
         type: "warning",
         icon: "ti-cloud",
         title: "NOx Risparmiati",
@@ -224,7 +241,7 @@ const statsCards_compare = [
         show: false,
     },
     {   
-        id:7,
+        id:3,
         type: "danger",
         icon: "ti-cloud",
         title: "PM10 Risparmiato",
@@ -234,7 +251,7 @@ const statsCards_compare = [
         show: false,
     },
     {
-        id:8,
+        id:4,
         type: "primary",
         icon: "ti-money",
         title: "Costi Esterni Risparmiati",
@@ -288,7 +305,7 @@ const statsCards_obj = [
 ];
 const statsCards_obj_compare = [
     {
-        id:5,
+        id:1,
         type: "success",
         icon: "ti-cloud",
         title: "CO2 Risparmiata",
@@ -298,7 +315,7 @@ const statsCards_obj_compare = [
         show: false,
     },
     {
-        id:6,
+        id:2,
         type: "warning",
         icon: "ti-cloud",
         title: "NOx Risparmiati",
@@ -308,7 +325,7 @@ const statsCards_obj_compare = [
         show: false,
     },
     {
-        id:7,
+        id:3,
         type: "danger",
         icon: "ti-cloud",
         title: "PM10 Risparmiato",
@@ -318,7 +335,7 @@ const statsCards_obj_compare = [
         show: false,
     },
     {
-        id:8,
+        id:4,
         type: "primary",
         icon: "ti-money",
         title: "Costi Esterni Risparmiati",
@@ -353,8 +370,9 @@ export default {
             year: '',
             yearCompare: 2023, // WIP - Selezione locale per il confronto tra anni
 			yearOptions: [2020, 2021, 2022, 2023, 2024], // WIP - array anni disponibili
-            statsCards_compare: statsCards,
-            statsCards_obj_compare: statsCards_obj,
+            statsCards_compare: statsCards_compare,
+            statsCards_obj_compare: statsCards_obj_compare,
+            busy_compare: false,
             
         };
     },
@@ -438,7 +456,7 @@ export default {
 
 
 				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.year);
-                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare);
+                
 
 				if (result != null) {
 					this.impacts = result.data.impacts;
@@ -480,10 +498,33 @@ export default {
                     this.statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2))} Kg`;	
                     this.statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
                     this.alberi=Math.round(totalCO2.toFixed(2)/22);
-				}
+                }else{
+                    this.exists_bilancio = false;
+                }
+			} catch (error) {
+				console.log(error);
+				this.exists_bilancio = false;
+			} finally {
+				this.busy = false;
+			}
+		},
+        retriveImpactCompare: async function () {
+			this.busy_compare = true;
+			try {
+				this.surveys = await this.createFilteredSurveysList();
+
+				localStorage.setItem("bilancio.company", this.company_id);
+				localStorage.setItem("bilancio.office", this.office_id);
+				localStorage.setItem("bilancio.survey", this.survey_id);
+
+
+				
+                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare);
+
+				
                 
                 if (result_compare != null) {
-                    this.impacts_compare = result.data.impacts_compare
+                    this.impacts_compare = result_compare.data.impacts
 					this.exists_pscl = true;
                     let totalCO2_compare = 0;
                     let totalNOx_compare = 0;
@@ -511,16 +552,16 @@ export default {
                         
                     }
 
-                    console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
-                    console.log(`obj CO2 emissions: ${obj_CO2.toFixed(2)} kg`);	
-                    this.statsCards_compare[5].value=`${Math.round(totalCO2_compare.toFixed(2))} Kg`;	
-                    this.statsCards_compare[6].value=`${Math.round(totalNOx_compare.toFixed(2))} Kg`;	
-                    this.statsCards_compare[7].value=`${Math.round(totalPM10_compare.toFixed(2))} Kg`;
-                    this.statsCards_compare[8].value=`${(Math.round(((27*totalPM10_compare.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
-                    this.statsCards_obj_compare[5].value=`${Math.round(obj_CO2_compare.toFixed(2))} Kg`;	
-                    this.statsCards_obj_compare[6].value=`${Math.round(obj_NOx_compare.toFixed(2))} Kg`;	
-                    this.statsCards_obj_compare[7].value=`${Math.round(obj_PM10_compare.toFixed(2))} Kg`;	
-                    this.statsCards_obj_compare[8].value=`${(Math.round(((27*obj_PM10_compare.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
+                    console.log(`Total CO2 emissions compare: ${totalCO2_compare.toFixed(2)} tons`);	
+                    console.log(`obj CO2 emissions compare: ${obj_CO2_compare.toFixed(2)} kg`);	
+                    this.statsCards_compare[0].value=`${Math.round(totalCO2_compare.toFixed(2))} Kg`;	
+                    this.statsCards_compare[1].value=`${Math.round(totalNOx_compare.toFixed(2))} Kg`;	
+                    this.statsCards_compare[2].value=`${Math.round(totalPM10_compare.toFixed(2))} Kg`;
+                    this.statsCards_compare[3].value=`${(Math.round(((27*totalPM10_compare.toFixed(2))+ (25.4*totalNOx_compare.toFixed(2)))/10)/100)} €`;
+                    this.statsCards_obj_compare[0].value=`${Math.round(obj_CO2_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[1].value=`${Math.round(obj_NOx_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[2].value=`${Math.round(obj_PM10_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[3].value=`${(Math.round(((27*obj_PM10_compare.toFixed(2))+ (25.4*obj_NOx_compare.toFixed(2)))/10)/100)} €`;	
                     //this.alberi=Math.round(totalCO2.toFixed(2)/22);
 				}
                 else {
@@ -530,7 +571,7 @@ export default {
 				console.log(error);
 				this.exists_bilancio = false;
 			} finally {
-				this.busy = false;
+				this.busy_compare = false;
 			}
 		},
 
@@ -587,6 +628,7 @@ export default {
                     this.survey_id = parseInt(this.$route.query.survey_id);
                 }
                 this.retriveImpact();
+                this.retriveImpactCompare();
                 return;
             } catch (e) {
                 console.log(e);
