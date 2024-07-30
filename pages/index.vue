@@ -12,7 +12,7 @@
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Sede</label>
-                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name"></b-form-select>
+                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" ></b-form-select>
                     </b-form-group>                   
                 </b-col>
                 <!-- vecchio filtro per visualizzazione dati questionari
@@ -32,7 +32,7 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions"/>
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" />
                         </b-form-group>
                     </b-col>
                 <div class="row">
@@ -58,7 +58,7 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions"/>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
                         </b-form-group>
                     </b-col>
                 <div class="row">
@@ -89,7 +89,7 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions"/>
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
                         </b-form-group>
                     </b-col>
                     <div class="row">
@@ -116,7 +116,7 @@
             <div class="col-sm-12 col-md-6 col-xl-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions"/>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
                         </b-form-group>
                     </b-col>
                     <div class="row">
@@ -202,6 +202,48 @@ const statsCards = [
     },
 ];
 
+const statsCards_compare = [
+    {
+        id:5,
+        type: "success",
+        icon: "ti-cloud",
+        title: "CO2 Risparmiata",
+        value: "0 Kg",
+        footerText: "La CO2 è indicatore delle le emissioni climalteranti",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {
+        id:6,
+        type: "warning",
+        icon: "ti-cloud",
+        title: "NOx Risparmiati",
+        value: "0 Kg",
+        footerText: "Gli NOx sono responsabili di malattie respiratorie e causano 90.000 morti all'anno direttamente connessi all'inquinamento atmosferico",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {   
+        id:7,
+        type: "danger",
+        icon: "ti-cloud",
+        title: "PM10 Risparmiato",
+        value: "0 Kg",
+        footerText: "Il PM10 causa diversi effetti sulla salute tra cui molti disturbi collegati all'apparato respiratorio. L’Agenzia Internazionale per la Ricerca sul Cancro (IARC) ha classificato l’inquinamento dell’aria (di cui il particolato atmosferico è un indicatore) nel Gruppo 1, vale a dire tra le sostanze cancerogene per l’uomo.",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {
+        id:8,
+        type: "primary",
+        icon: "ti-money",
+        title: "Costi Esterni Risparmiati",
+        value: "0 €",
+        footerText: "Il traffico genera dei costi che ricadono sulla collettività (metodologia di calcolo utilizzata: Handbook on the external costs of transport)",
+        footerIcon: "ti-info",
+        show: false,
+    },
+];
 const statsCards_obj = [
     {
         id:1,
@@ -235,6 +277,48 @@ const statsCards_obj = [
     },
     {
         id:4,
+        type: "primary",
+        icon: "ti-money",
+        title: "Costi Esterni Risparmiati",
+        value: "0 €",
+        footerText: "Il traffico genera dei costi che ricadono sulla collettività (metodologia di calcolo utilizzata: Handbook on the external costs of transport)",
+        footerIcon: "ti-info",
+        show: false,
+    },
+];
+const statsCards_obj_compare = [
+    {
+        id:5,
+        type: "success",
+        icon: "ti-cloud",
+        title: "CO2 Risparmiata",
+        value: "0 Kg",
+        footerText: "La CO2 è indicatore delle le emissioni climalteranti",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {
+        id:6,
+        type: "warning",
+        icon: "ti-cloud",
+        title: "NOx Risparmiati",
+        value: "0 Kg",
+        footerText: "Gli NOx sono responsabili di malattie respiratorie e causano 90.000 morti all'anno direttamente connessi all'inquinamento atmosferico",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {
+        id:7,
+        type: "danger",
+        icon: "ti-cloud",
+        title: "PM10 Risparmiato",
+        value: "0 Kg",
+        footerText: "Il PM10 causa diversi effetti sulla salute tra cui molti disturbi collegati all'apparato respiratorio. L’Agenzia Internazionale per la Ricerca sul Cancro (IARC) ha classificato l’inquinamento dell’aria (di cui il particolato atmosferico è un indicatore) nel Gruppo 1, vale a dire tra le sostanze cancerogene per l’uomo.",
+        footerIcon: "ti-info",
+        show: false,
+    },
+    {
+        id:8,
         type: "primary",
         icon: "ti-money",
         title: "Costi Esterni Risparmiati",
@@ -352,7 +436,9 @@ export default {
 				localStorage.setItem("bilancio.office", this.office_id);
 				localStorage.setItem("bilancio.survey", this.survey_id);
 
-				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id);
+
+				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.year);
+                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare);
 
 				if (result != null) {
 					this.impacts = result.data.impacts;
@@ -394,7 +480,50 @@ export default {
                     this.statsCards_obj[2].value=`${Math.round(obj_PM10.toFixed(2))} Kg`;	
                     this.statsCards_obj[3].value=`${(Math.round(((27*obj_PM10.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
                     this.alberi=Math.round(totalCO2.toFixed(2)/22);
-				} else {
+				}
+                
+                if (result_compare != null) {
+                    this.impacts_compare = result.data.impacts_compare
+					this.exists_pscl = true;
+                    let totalCO2_compare = 0;
+                    let totalNOx_compare = 0;
+                    let totalPM10_compare = 0;
+                    let obj_CO2_compare = 0;
+                    let obj_NOx_compare = 0;
+                    let obj_PM10_compare = 0;
+
+                    for (const key in this.impacts_compare) {
+                        // this.impacts[key].forEach(obj => totalCO2 += obj.CO2);
+                        // this.impacts[key].forEach(obj => totalNOx += obj.NOx);
+                        // this.impacts[key].forEach(obj => totalPM10 += obj.PM10);
+                        totalCO2_compare +=  this.impacts_compare[key].slice(-1)[0].CO2;
+                        totalNOx_compare +=  this.impacts_compare[key].slice(-1)[0].NOx;
+                        totalPM10_compare +=  this.impacts_compare[key].slice(-1)[0].PM10;
+                        // this.impacts[key].slice(-1).forEach(obj => totalCO2 += obj.CO2);
+                        // this.impacts[key].slice(-1).forEach(obj => totalNOx += obj.NOx);
+                        // this.impacts[key].slice(-1).forEach(obj => totalPM10 += obj.PM10);
+                        obj_CO2_compare +=this.impacts_compare[key][0].CO2;
+                        obj_NOx_compare +=this.impacts_compare[key][0].NOx;
+                        obj_PM10_compare +=this.impacts_compare[key][0].PM10;
+                        // .forEach(obj => obj_CO2 += obj.CO2);
+                        // this.impacts[key].forEach(obj => obj_NOx += obj.NOx);
+                        // this.impacts[key].forEach(obj => obj_PM10 += obj.PM10);
+                        
+                    }
+
+                    console.log(`Total CO2 emissions: ${totalCO2.toFixed(2)} tons`);	
+                    console.log(`obj CO2 emissions: ${obj_CO2.toFixed(2)} kg`);	
+                    this.statsCards_compare[5].value=`${Math.round(totalCO2_compare.toFixed(2))} Kg`;	
+                    this.statsCards_compare[6].value=`${Math.round(totalNOx_compare.toFixed(2))} Kg`;	
+                    this.statsCards_compare[7].value=`${Math.round(totalPM10_compare.toFixed(2))} Kg`;
+                    this.statsCards_compare[8].value=`${(Math.round(((27*totalPM10_compare.toFixed(2))+ (25.4*totalNOx.toFixed(2)))/10)/100)} €`;
+                    this.statsCards_obj_compare[5].value=`${Math.round(obj_CO2_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[6].value=`${Math.round(obj_NOx_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[7].value=`${Math.round(obj_PM10_compare.toFixed(2))} Kg`;	
+                    this.statsCards_obj_compare[8].value=`${(Math.round(((27*obj_PM10_compare.toFixed(2))+ (25.4*obj_NOx.toFixed(2)))/10)/100)} €`;	
+                    //this.alberi=Math.round(totalCO2.toFixed(2)/22);
+				}
+                else {
 					this.exists_bilancio = false;
 				}
 			} catch (error) {
