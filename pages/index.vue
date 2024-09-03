@@ -367,9 +367,8 @@ export default {
             impacts: null,
             max:1000,
             value:300,
-            year: '',
-            yearCompare: 2023, // WIP - Selezione locale per il confronto tra anni
-			yearOptions: [2020, 2021, 2022, 2023, 2024], // WIP - array anni disponibili
+            year: new Date().getFullYear(),
+            yearCompare: new Date().getFullYear() - 1, // WIP - Selezione locale per il confronto tra anni
             statsCards_compare: statsCards_compare,
             statsCards_obj_compare: statsCards_obj_compare,
             busy_compare: false,
