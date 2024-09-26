@@ -454,7 +454,7 @@ export default {
 				localStorage.setItem("bilancio.survey", this.survey_id);
 
 
-				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.year);
+				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.year != 'TUTTI'? parseInt(this.year):null);
                 
 
 				if (result != null) {
@@ -518,7 +518,7 @@ export default {
 
 
 				
-                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare);
+                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare != 'TUTTI'? parseInt(this.yearCompare):null);
 
 				
                 
