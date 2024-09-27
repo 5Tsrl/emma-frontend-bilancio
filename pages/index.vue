@@ -26,18 +26,27 @@
             </b-form-row>
         </b-form>
         <hr />
-        <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
+
+        <b-row class="px-0">
+            <b-col class="flex-grow-1 px-0">
+                <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
+                <span>
+                    <b-button @click="toggleCompare" class="float-right flex-shrink">Confronto anni</b-button>
+                </span>
+            </b-col>
+        </b-row>
+        
         <!--Stats cards-->
         
-        <div class="row" >
-            <div class="col-sm-12 col-md-6 col-xl-6">
+        <div class="row flex-nowrap" style="gap: 30px;">
+            <div class="flex-grow-1">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" />
                         </b-form-group>
                     </b-col>
                 <!-- busy -->
-                <div class="text-center" v-if="busy">
+                <div class="text-center flex-grow-1" v-if="busy">
                     <b-spinner label="Spinning"></b-spinner>
                 </div>
                 <div class="row" v-else>
@@ -60,14 +69,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-xl-6">
+            <div v-if="isComparing" class="flex-grow-1">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
                         </b-form-group>
                     </b-col>
                     <!-- busy -->
-                <div class="text-center" v-if="busy_compare">
+                <div class="text-center flex-grow-1" v-if="busy_compare">
                     <b-spinner label="Spinning"></b-spinner>
                 </div>
                 <div class="row" v-else>
@@ -91,18 +100,19 @@
                 </div>
             </div>
         </div>
+
+        <div><h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2></div>
         
-        <h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2>
         <!--Stats cards-->
-         <div class="row">
-            <div class="col-sm-12 col-md-6 col-xl-6">
+         <div class="row flex-nowrap">
+            <div class="flex-grow-1">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
                         </b-form-group>
                     </b-col>
                     <!-- busy -->
-                    <div class="text-center" v-if="busy">
+                    <div class="text-center flex-grow-1" v-if="busy">
                         <b-spinner label="Spinning"></b-spinner>
                     </div>
                     <div class="row" v-else>
@@ -126,14 +136,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 col-xl-6">
+            <div v-if="isComparing" class="col-6">
                 <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
                         </b-form-group>
                     </b-col>
                     <!-- busy -->
-                    <div class="text-center" v-if="busy_compare">
+                    <div class="text-center flex-grow-1" v-if="busy_compare">
                         <b-spinner label="Spinning"></b-spinner>
                     </div>
                     <div class="row" v-else>
@@ -371,6 +381,7 @@ export default {
             yearCompare: new Date().getFullYear() - 1, // WIP - Selezione locale per il confronto tra anni
             statsCards_compare: statsCards_compare,
             statsCards_obj_compare: statsCards_obj_compare,
+            isComparing: false,
             busy_compare: false,
             
         };
@@ -507,6 +518,9 @@ export default {
 				this.busy = false;
 			}
 		},
+        toggleCompare() {
+            this.isComparing = !this.isComparing; // Cambia lo stato tra true e false
+        },
         retriveImpactCompare: async function () {
 			this.busy_compare = true;
 			try {
