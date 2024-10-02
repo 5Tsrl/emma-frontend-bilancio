@@ -31,7 +31,17 @@
             <b-col class="flex-grow-1 px-0">
                 <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
                 <span>
-                    <b-button @click="toggleCompare" class="float-right flex-shrink">Confronto anni</b-button>
+                    <b-button 
+                        @click="toggleCompare"
+                        :variant="isActive ? 'danger' : 'info'"  
+                        :class="{ active: isActive }"
+                        class="float-right flex-shrink"
+                        id="toggleCompare"
+                        v-b-tooltip.hover 
+                        :title="isActive ? '' : 'Confronta con altri anni/questionari'"
+                        >
+                        {{ isActive ? 'Chiudi' : 'Confronto' }} <!-- Cambia il testo in base allo stato -->
+                    </b-button>
                 </span>
             </b-col>
         </b-row>
@@ -375,6 +385,7 @@ export default {
             surveys: [],
             busy: false,
             impacts: null,
+            isActive: false, // Stato del bottone confronto
             max:1000,
             value:300,
             year: new Date().getFullYear(),
@@ -520,6 +531,7 @@ export default {
 		},
         toggleCompare() {
             this.isComparing = !this.isComparing; // Cambia lo stato tra true e false
+            this.isActive = !this.isActive; // Cambia lo stato del bottone di confronto
         },
         retriveImpactCompare: async function () {
 			this.busy_compare = true;
