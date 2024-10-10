@@ -16,18 +16,18 @@
                     </b-form-group>                   
                 </b-col>
                 
-                <b-col class="flex-grow-1">
+                <!--<b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Questionario</label>
                         <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
                     </b-form-group>                    
-                </b-col>
+                </b-col>-->
                
             </b-form-row>
         </b-form>
         <hr />
 
-        <b-row class="px-0">
+        <b-row class="px-0 mb-2">
             <b-col class="flex-grow-1 px-0">
                 <h2>Bilancio di Sostenibilità e Esternalità Monitoraggio</h2>
                 <span>
@@ -50,9 +50,9 @@
         
         <div class="row flex-nowrap" style="gap: 30px;">
             <div class="flex-grow-1">
-                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+                <b-col class="col-12 px-0"><!--filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" />
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true" />
                         </b-form-group>
                     </b-col>
                 <!-- busy -->
@@ -80,11 +80,11 @@
                 </div>
             </div>
             <div v-if="isComparing" class="flex-grow-1">
-                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
-                        <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
-                        </b-form-group>
-                    </b-col>
+                <b-col class="col-12 px-0"><!-- WIP - filtro per anno confronto -->
+                    <b-form-group>
+                        <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
+                    </b-form-group>
+                </b-col>
                     <!-- busy -->
                 <div class="text-center flex-grow-1" v-if="busy_compare">
                     <b-spinner label="Spinning"></b-spinner>
@@ -114,19 +114,19 @@
         <div><h2>Bilancio di Sostenibilità e Esternalità Obbiettivo</h2></div>
         
         <!--Stats cards-->
-         <div class="row flex-nowrap">
+         <div class="row flex-nowrap"  style="gap: 30px;">
             <div class="flex-grow-1">
-                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
-                        <b-form-group>
-                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact"/>
-                        </b-form-group>
-                    </b-col>
-                    <!-- busy -->
-                    <div class="text-center flex-grow-1" v-if="busy">
-                        <b-spinner label="Spinning"></b-spinner>
-                    </div>
-                    <div class="row" v-else>
-                        <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
+                <b-col class="col-12 px-0"><!--filtro per anno confronto -->
+                    <b-form-group>
+                        <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true"/>
+                    </b-form-group>
+                </b-col>
+                <!-- busy -->
+                <div class="text-center flex-grow-1" v-if="busy">
+                    <b-spinner label="Spinning"></b-spinner>
+                </div>
+                <div class="row" v-else>
+                    <div class="col-sm-6 col-md-6 col-xl-6" v-for="stats in statsCards_obj" :key="stats.title">
                         <stats-card>
                             <div class="icon-big text-center float-left" :class="`icon-${stats.type}`" slot="header">
                                 <i :class="stats.icon"></i>
@@ -138,16 +138,16 @@
                             <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
                             <div class="stats" slot="footer">
                                 <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
-                            <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
-                                {{ stats.footerText }}
-                            </b-popover>
+                                <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
+                                    {{ stats.footerText }}
+                                </b-popover>
                             </div>
                         </stats-card>
                     </div>
                 </div>
             </div>
-            <div v-if="isComparing" class="col-6">
-                <b-col class="col-4 pl-0"><!-- WIP - filtro per anno confronto -->
+            <div v-if="isComparing" class="flex-grow-1">
+                <b-col class="col-12 px-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
                             <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
                         </b-form-group>
@@ -169,9 +169,9 @@
                             <!-- <div class="stats" slot="footer"><i :class="stats.footerIcon"></i> {{ stats.footerText }}</div> -->
                             <div class="stats" slot="footer">
                                 <b-button :id="`info_obj-${stats.id}`" variant="primary"><i :class="stats.footerIcon"></i></b-button>
-                            <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
-                                {{ stats.footerText }}
-                            </b-popover>
+                                <b-popover :show.sync="stats.show" :target="`info_obj-${stats.id}`" title="Informazion">
+                                    {{ stats.footerText }}
+                                </b-popover>
                             </div>
                         </stats-card>
                     </div>
