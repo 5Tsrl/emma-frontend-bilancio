@@ -6,13 +6,13 @@
                     <b-form-group>
                         <label>Azienda</label>
                         <b-form-select v-model="company_id" :options="companies" value-field="id" text-field="name"
-                            v-on:change="updateOffices"></b-form-select>
+                            v-on:change="updateOffices" id="company"></b-form-select>
                     </b-form-group>
                 </b-col>
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Sede</label>
-                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" ></b-form-select>
+                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" id="sede"></b-form-select>
                     </b-form-group>                   
                 </b-col>
                 
@@ -40,7 +40,7 @@
                         v-b-tooltip.hover 
                         :title="isActive ? '' : 'Confronta con altri anni/questionari'"
                         >
-                        {{ isActive ? 'Chiudi' : 'Confronto' }} <!-- Cambia il testo in base allo stato -->
+                        {{ isActive ? 'Chiudi' : 'Confronta' }} <!-- Cambia il testo in base allo stato -->
                     </b-button>
                 </span>
             </b-col>
@@ -52,7 +52,7 @@
             <div class="flex-grow-1">
                 <b-col class="col-12 px-0"><!--filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true" />
+                            <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true" id="baseYear"/>
                         </b-form-group>
                     </b-col>
                 <!-- busy -->
@@ -82,7 +82,7 @@
             <div v-if="isComparing" class="flex-grow-1">
                 <b-col class="col-12 px-0"><!-- WIP - filtro per anno confronto -->
                     <b-form-group>
-                        <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
+                        <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare" id="baseYearCompare"/>
                     </b-form-group>
                 </b-col>
                     <!-- busy -->
@@ -118,7 +118,7 @@
             <div class="flex-grow-1">
                 <b-col class="col-12 px-0"><!--filtro per anno confronto -->
                     <b-form-group>
-                        <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true"/>
+                        <b-form-select size="md" v-model="year" name="year" :options="yearOptions" v-on:change="retriveImpact" :disabled="true" id="baseYear"/>
                     </b-form-group>
                 </b-col>
                 <!-- busy -->
@@ -149,7 +149,7 @@
             <div v-if="isComparing" class="flex-grow-1">
                 <b-col class="col-12 px-0"><!-- WIP - filtro per anno confronto -->
                         <b-form-group>
-                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare"/>
+                            <b-form-select size="md" v-model="yearCompare" name="year" :options="yearOptions" v-on:change="retriveImpactCompare" id="baseYearCompare"/>
                         </b-form-group>
                     </b-col>
                     <!-- busy -->
