@@ -388,7 +388,7 @@ export default {
             isActive: false, // Stato del bottone confronto
             max:1000,
             value:300,
-            year: new Date().getFullYear(),
+            // year: new Date().getFullYear(),
             yearCompare: new Date().getFullYear() - 1, // WIP - Selezione locale per il confronto tra anni
             statsCards_compare: statsCards_compare,
             statsCards_obj_compare: statsCards_obj_compare,
@@ -475,8 +475,8 @@ export default {
 				localStorage.setItem("bilancio.office", this.office_id);
 				localStorage.setItem("bilancio.survey", this.survey_id);
 
-
-				let result = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.year != 'TUTTI'? parseInt(this.year):null);
+                this.getYear();
+				let result = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.year != 'TUTTI'? parseInt(this.year):null);
                 
 
 				if (result != null) {
@@ -544,7 +544,7 @@ export default {
 
 
 				
-                let result_compare = await UserService.getPsclMeasureImpacts(this.office_id, this.survey_id, this.yearCompare != 'TUTTI'? parseInt(this.yearCompare):null);
+                let result_compare = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.yearCompare != 'TUTTI'? parseInt(this.yearCompare):null);
 
 				
                 
