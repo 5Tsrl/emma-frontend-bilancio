@@ -12,18 +12,31 @@
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Sede</label>
-                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" id="sede"></b-form-select>
+                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" id="sede" :disabled="ignore_office && year!='TUTTI'"></b-form-select>
                     </b-form-group>                   
                 </b-col>
                 
-                <!--<b-col class="flex-grow-1">
+                <!-- <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Questionario</label>
                         <b-form-select v-model="survey_id" :options="surveys" value-field="id" text-field="name" v-on:change="retriveImpact"></b-form-select>
                     </b-form-group>                    
-                </b-col>-->
+                </b-col> -->
                
             </b-form-row>
+            <b-from-row>
+                <b-col class="flex-grow-1">
+                    <b-form-checkbox
+					id="checkbox-1"
+					v-model="ignore_office"
+					name="checkbox-1"
+					v-on:change="retriveImpact"
+					class="">
+					Non considerare la sede nella generazione del PSCL
+					</b-form-checkbox>
+                </b-col>
+
+            </b-from-row>
         </b-form>
         <hr />
 
@@ -476,6 +489,15 @@ export default {
 				localStorage.setItem("bilancio.survey", this.survey_id);
 
                 this.getYear();
+                // use ignore_office to call the api without office_id
+				if ( this.year != 'TUTTI'  ) {
+					if(this.ignore_office){
+						this.office_id = null;
+					}else if(this.office_id == null){
+						await this.updateOffices(false);
+					}
+					
+				}
 				let result = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.year != 'TUTTI'? parseInt(this.year):null);
                 
 
