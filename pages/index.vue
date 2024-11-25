@@ -494,7 +494,7 @@ export default {
 					}
 					
 				}
-				let result = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.year != 'TUTTI'? parseInt(this.year):null);
+				let result = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.year);
                 
 
 				if (result != null) {
@@ -562,7 +562,7 @@ export default {
 
 
 				
-                let result_compare = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.yearCompare != 'TUTTI'? parseInt(this.yearCompare):null);
+                let result_compare = await UserService.getPsclMeasureImpacts(this.company_id,this.office_id, this.survey_id, this.yearCompare);
 
 				
                 
