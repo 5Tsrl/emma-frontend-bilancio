@@ -12,12 +12,12 @@
                 <b-col class="flex-grow-1">
                     <b-form-group>
                         <label>Sede</label>
-                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" id="sede" :disabled="ignore_office && year!='TUTTI'"></b-form-select>
+                        <b-form-select v-model="office_id" :options="offices" value-field="id" text-field="name" id="sede" :disabled="ignore_office && year!='TUTTI'" @change="retriveImpact(); retriveImpactCompare()"></b-form-select>
                         <b-form-checkbox
                         id="checkbox-1"
                         v-model="ignore_office"
                         name="checkbox-1"
-                        v-on:change="retriveImpact"
+                        @change="retriveImpact(); retriveImpactCompare()"
                         class="mt-1">
                         Non considerare la sede nella generazione del PSCL
                         </b-form-checkbox>
