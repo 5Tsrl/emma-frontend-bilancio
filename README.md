@@ -49,4 +49,4 @@ SPDX-License-Identifier: EUPL-1.2
 See the LICENSE.txt file for details
 
 # Community site
-https://bitbucket.org/mobilitymanagerplatform/emma-api
+https://github.com/5Tsrl/emma-frontend.git
